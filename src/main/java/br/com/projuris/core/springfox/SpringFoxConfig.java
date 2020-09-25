@@ -36,7 +36,7 @@ public class SpringFoxConfig {
                 .globalResponseMessage(RequestMethod.DELETE, ResponseMessages.globalDelete())
                 .additionalModels(typeResolver.resolve(Problem.class))
                 .apiInfo(apiInfo())
-                .tags(new Tag("Exemples", "Gerencia os Exemplos"));
+                .tags(new Tag("Clientes", "Gerencia os Clientes"));
     }
 
 
