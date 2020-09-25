@@ -1,0 +1,12 @@
+CREATE TABLE TB_TELEFONE
+(
+    ID          BIGINT(20) PRIMARY KEY AUTO_INCREMENT,
+    DDD         VARCHAR2(3)  NOT NULL,
+    NUMERO      VARCHAR2(15) NOT NULL,
+    IS_WHATSAPP BOOLEAN      NOT NULL,
+    ID_CLIENTE  BIGINT(20)   NOT NULL,
+    IS_ATIVO    BOOLEAN      NOT NULL,
+    constraint TB_TELEFONE_TB_CLIENTE_ID_FK
+        foreign key (ID_CLIENTE) references TB_CLIENTE on delete cascade
+);
+
