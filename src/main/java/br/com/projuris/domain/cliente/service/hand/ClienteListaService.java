@@ -7,5 +7,5 @@ import br.com.projuris.infrastructure.interfaces.ServiceDefault;
 import java.util.List;
 
 public interface ClienteListaService extends ServiceDefault<Cliente> {
-    List<ClienteCompletoResponse> findClienteCompletoResponseAll();
+    List<ClienteCompletoResponse> buscaTodos();
 }
