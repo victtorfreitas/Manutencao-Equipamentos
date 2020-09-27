@@ -23,7 +23,7 @@ public class ClienteController implements ClienteControllerOpenApi {
     @Override
     @GetMapping
     public List<ClienteCompletoResponse> listar() {
-        return clienteListaService.findClienteCompletoResponseAll();
+        return clienteListaService.buscaTodos();
     }
 }
 
