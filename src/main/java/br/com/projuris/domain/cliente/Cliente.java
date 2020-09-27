@@ -1,5 +1,6 @@
 package br.com.projuris.domain.cliente;
 
+import br.com.projuris.domain.telefone.Telefone;
 import br.com.projuris.infrastructure.abstracts.EntityAuditAbsDefault;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,11 +8,14 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Where;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Data
 @Entity(name = "TB_CLIENTE")
@@ -32,4 +36,7 @@ public class Cliente extends EntityAuditAbsDefault {
     @Email
     @Max(value = 250)
     private String email;
+
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+    private List<Telefone> telefones;
 }
