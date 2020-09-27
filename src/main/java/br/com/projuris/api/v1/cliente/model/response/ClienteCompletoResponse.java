@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 public class ClienteCompletoResponse {
@@ -22,5 +24,5 @@ public class ClienteCompletoResponse {
     @ApiModelProperty(example = "Victtorfreitas95@gmail.com")
     private String email;
 
-    private TelefoneCompletoResponse telefones;
+    private List<TelefoneCompletoResponse> telefones;
 }
