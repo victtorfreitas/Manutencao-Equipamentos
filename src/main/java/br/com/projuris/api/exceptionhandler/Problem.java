@@ -22,8 +22,6 @@ public class Problem {
 	@ApiModelProperty(example = "2019-12-01T18:09:02.70844Z", position = 5)
 	private final LocalDateTime time;
 
-	@ApiModelProperty(example = "https://projuris.com.br/dados-invalidos", position = 10)
-	private final String type;
 
 	@ApiModelProperty(example = "Dados inválidos", position = 15)
 	private final String title;
