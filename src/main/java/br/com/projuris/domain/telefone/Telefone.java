@@ -12,9 +12,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Data
 @Entity(name = "TB_TELEFONE")
@@ -25,11 +25,11 @@ import javax.validation.constraints.NotNull;
 public class Telefone extends EntityAuditAbsDefault {
 
     @NotBlank
-    @Max(3)
+    @Size(min = 3, max = 3)
     private String ddd;
 
     @NotBlank
-    @Max(15)
+    @Size(min = 4, max = 15)
     private String numero;
 
     @NotNull
@@ -37,6 +37,6 @@ public class Telefone extends EntityAuditAbsDefault {
     private Boolean isWhatsApp;
 
     @ManyToOne
-    @JoinColumn(name = "ID_CLIENTE", nullable = false)
+    @JoinColumn(name = "ID_CLIENTE")
     private Cliente cliente;
 }

@@ -12,7 +12,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.List;
@@ -34,9 +33,12 @@ public class Cliente extends EntityAuditAbsDefault {
     private String cpf;
 
     @Email
-    @Max(value = 250)
     private String email;
 
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.PERSIST)
     private List<Telefone> telefones;
+
+    public boolean temTelefones() {
+        return this.telefones != null;
+    }
 }

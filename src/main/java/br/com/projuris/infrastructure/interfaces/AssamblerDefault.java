@@ -1,5 +1,7 @@
 package br.com.projuris.infrastructure.interfaces;
 
+import java.util.List;
+
 /**
  * Interface para padronizar os Dissambler
  *
@@ -8,4 +10,6 @@ package br.com.projuris.infrastructure.interfaces;
  */
 public interface AssamblerDefault<T, E> {
     E toModel(T t);
+
+    List<E> toListModel(List<T> t);
 }

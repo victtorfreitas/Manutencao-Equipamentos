@@ -1,4 +1,4 @@
-package br.com.projuris.domain.telefone.service;
+package br.com.projuris.domain.telefone.service.listar;
 
 import br.com.projuris.domain.telefone.Telefone;
 import br.com.projuris.infrastructure.interfaces.ServiceDefault;

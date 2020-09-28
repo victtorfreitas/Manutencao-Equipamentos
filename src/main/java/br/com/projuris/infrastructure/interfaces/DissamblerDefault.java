@@ -8,6 +8,5 @@ package br.com.projuris.infrastructure.interfaces;
  */
 public interface DissamblerDefault<T, E> {
     T toDomainObject(E e);
-
     void copyToDomainObject(E e, T t);
 }
