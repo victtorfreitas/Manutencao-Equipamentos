@@ -23,6 +23,13 @@ public class TelefoneAssembler implements AssamblerDefault<Telefone, TelefoneCom
     }
 
     public List<TelefoneCompletoResponse> toListModel(List<Telefone> telefones) {
-        return telefones.stream().map(this::toModel).collect(Collectors.toList());
+        if (temTelefones(telefones)) {
+            return telefones.stream().map(this::toModel).collect(Collectors.toList());
+        }
+        return null;
+    }
+
+    private boolean temTelefones(List<Telefone> telefones) {
+        return telefones != null;
     }
 }

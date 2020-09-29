@@ -19,6 +19,7 @@ public class ClienteDisassembler implements DissamblerDefault<Cliente, ClienteCa
     public Cliente toDomainObject(ClienteCadastrarRequest clienteCadastrarRequest) {
         Cliente cliente = modelMapper.map(clienteCadastrarRequest, Cliente.class);
         cliente.getTelefones().forEach(t -> t.setCliente(cliente));
+        cliente.getEnderecos().forEach(t -> t.setCliente(cliente));
         return cliente;
     }
 

@@ -25,4 +25,6 @@ public class ClienteCompletoResponse {
     private String email;
 
     private List<TelefoneCompletoResponse> telefones;
+
+    private List<EnderecoCompletoResponse> enderecos;
 }

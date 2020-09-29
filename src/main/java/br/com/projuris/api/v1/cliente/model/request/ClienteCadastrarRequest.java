@@ -33,6 +33,9 @@ public class ClienteCadastrarRequest {
     @NotNull
     private List<TelefoneCadastrarRequest> telefones;
 
+    @Valid
+    @NotNull
+    private List<EnderecoCadastrarRequest> enderecos;
 
     public boolean temTelefones() {
         return this.telefones != null;
