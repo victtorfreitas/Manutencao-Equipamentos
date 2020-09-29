@@ -32,10 +32,12 @@ public class OrdemServico extends EntityAuditAbsDefault {
 
     @NotNull
     @ManyToOne
+    @JoinColumn(name = "ID_EQUIPAMENTO")
     private Equipamento equipamento;
 
     @NotNull
     @ManyToOne
+    @JoinColumn(name = "ID_CLIENTE")
     private Cliente cliente;
 
     @NotNull
