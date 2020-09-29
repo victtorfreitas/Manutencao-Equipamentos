@@ -10,7 +10,7 @@ import java.util.List;
 @Api(tags = "Clientes")
 public interface ClienteControllerOpenApi {
 
-    @ApiOperation("Lisa todos os clientes ativos")
+    @ApiOperation("Lista todos os clientes ativos")
     List<ClienteCompletoResponse> listar();
 
     @ApiOperation("Cadastrar novo Cliente")

@@ -6,9 +6,9 @@ import io.swagger.annotations.ApiOperation;
 
 import java.util.List;
 
-@Api(tags = "OrdemServicos")
+@Api(tags = "Ordem Serviço")
 public interface OrdemServicoControllerOpenApi {
 
-    @ApiOperation("Lisa todos as Ordem de Serviços ativas")
+    @ApiOperation("Lista todas as Ordem de Serviços ativas")
     List<OrdemServicoCompletoResponse> listar();
 }

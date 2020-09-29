@@ -13,15 +13,16 @@ import java.time.LocalDateTime;
 @Setter
 public class OrdemServicoCompletoResponse {
 
-    @ApiModelProperty(example = "2019-12-01T18:09:02.70844Z", position = 1)
+    @ApiModelProperty(example = "2019-12-01T18:09:02.70844Z")
     private LocalDateTime dataInicio;
 
-    @ApiModelProperty(example = "2019-12-01T18:09:02.70844Z", position = 5)
+    @ApiModelProperty(example = "2019-12-01T18:09:02.70844Z")
     private LocalDateTime dataFim;
 
     @ApiModelProperty(example = "Concluída")
     private StatusOrdemServicoEnum status;
 
     private ClienteCompletoResponse cliente;
+
     private EquipamentoCompletoResponse equipamento;
 }
