@@ -8,10 +8,11 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Data
 @Entity(name = "TB_ENDERECO")
@@ -21,34 +22,35 @@ import javax.validation.constraints.NotNull;
 public class Endereco extends EntityAuditAbsDefault {
 
     @NotBlank
-    @Max(100)
+    @Size(max = 100)
     private String logradouro;
 
     @NotBlank
-    @Max(30)
+    @Size(max = 30)
     private String numero;
 
     @NotBlank
-    @Max(250)
+    @Size(max = 250)
     private String complemento;
 
     @NotBlank
-    @Max(150)
+    @Size(max = 150)
     private String bairro;
 
     @NotBlank
-    @Max(8)
+    @Size(max = 8)
     private String cep;
 
     @NotBlank
-    @Max(150)
+    @Size(max = 150)
     private String cidade;
 
     @NotBlank
-    @Max(30)
+    @Size(max = 30)
     private String estado;
 
     @NotNull
     @ManyToOne
+    @JoinColumn(name = "ID_CLIENTE")
     private Cliente cliente;
 }

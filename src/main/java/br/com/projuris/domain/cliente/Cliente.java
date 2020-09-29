@@ -1,5 +1,6 @@
 package br.com.projuris.domain.cliente;
 
+import br.com.projuris.domain.endereco.Endereco;
 import br.com.projuris.domain.telefone.Telefone;
 import br.com.projuris.infrastructure.abstracts.EntityAuditAbsDefault;
 import lombok.AllArgsConstructor;
@@ -35,8 +36,11 @@ public class Cliente extends EntityAuditAbsDefault {
     @Email
     private String email;
 
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     private List<Telefone> telefones;
+
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+    private List<Endereco> enderecos;
 
     public boolean temTelefones() {
         return this.telefones != null;
