@@ -11,6 +11,6 @@ public class FuncionarioResumidoResponse {
     @ApiModelProperty(example = "Fabricio Ribeiro")
     private String nome;
 
-    @ApiModelProperty(example = "77009594")
+    @ApiModelProperty(example = "20160101")
     private String matricula;
 }
