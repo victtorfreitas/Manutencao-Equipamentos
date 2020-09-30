@@ -1,5 +1,6 @@
 package br.com.projuris.domain.resultado;
 
+import br.com.projuris.domain.funcionario.Funcionario;
 import br.com.projuris.domain.ordemservico.OrdemServico;
 import br.com.projuris.infrastructure.abstracts.EntityAuditAbsDefault;
 import lombok.AllArgsConstructor;
@@ -35,5 +36,9 @@ public class Resultado extends EntityAuditAbsDefault {
     @ManyToOne
     @JoinColumn(name = "ID_ORDEM_SERVICO")
     private OrdemServico ordemServico;
+
+    @ManyToOne
+    @JoinColumn(name = "ID_RESPONSAVEL")
+    private Funcionario responsavel;
 
 }

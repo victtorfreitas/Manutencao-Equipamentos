@@ -2,12 +2,15 @@ package br.com.projuris.api.v1.ordemservico.model.response;
 
 import br.com.projuris.api.v1.cliente.model.response.ClienteCompletoResponse;
 import br.com.projuris.api.v1.equipamento.model.response.EquipamentoCompletoResponse;
+import br.com.projuris.api.v1.funcionario.model.response.FuncionarioResumidoResponse;
+import br.com.projuris.api.v1.resultado.model.response.ResultadoCompletoResponse;
 import br.com.projuris.domain.ordemservico.StatusOrdemServicoEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,4 +28,8 @@ public class OrdemServicoCompletoResponse {
     private ClienteCompletoResponse cliente;
 
     private EquipamentoCompletoResponse equipamento;
+
+    private FuncionarioResumidoResponse atendente;
+
+    private List<ResultadoCompletoResponse> resultados;
 }

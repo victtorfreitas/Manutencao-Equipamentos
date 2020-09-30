@@ -3,6 +3,7 @@ package br.com.projuris.domain.ordemservico;
 import br.com.projuris.domain.cliente.Cliente;
 import br.com.projuris.domain.equipamento.Equipamento;
 import br.com.projuris.domain.funcionario.Funcionario;
+import br.com.projuris.domain.resultado.Resultado;
 import br.com.projuris.infrastructure.abstracts.EntityAuditAbsDefault;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,13 +12,13 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Where;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -50,9 +51,10 @@ public class OrdemServico extends EntityAuditAbsDefault {
     @Enumerated(EnumType.STRING)
     private StatusOrdemServicoEnum status;
 
-    @ManyToMany
-    @JoinTable(name = "TB_FUNCIONARIOS_OS",
-            joinColumns = @JoinColumn(name = "ID_ORDEM_SERVICO"),
-            inverseJoinColumns = @JoinColumn(name = "ID_FUNCIONARIO"))
-    private List<Funcionario> funcionarios;
+    @ManyToOne
+    @JoinColumn(name = "ID_ATENDENTE")
+    private Funcionario Atendente;
+
+    @OneToMany(mappedBy = "ordemServico", cascade = CascadeType.ALL)
+    private List<Resultado> resultados;
 }
