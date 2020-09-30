@@ -7,6 +7,7 @@ import br.com.projuris.api.v1.equipamento.model.response.EquipamentoCompletoResp
 import br.com.projuris.api.v1.funcionario.assembler.FuncionarioResumidoAssembler;
 import br.com.projuris.api.v1.funcionario.model.response.FuncionarioResumidoResponse;
 import br.com.projuris.api.v1.ordemservico.model.response.OrdemServicoCompletoResponse;
+import br.com.projuris.api.v1.ordemservico.model.response.OrdemServicoResumidoResponse;
 import br.com.projuris.api.v1.resultado.assembler.ResultadoCompletoAssembler;
 import br.com.projuris.api.v1.resultado.model.response.ResultadoCompletoResponse;
 import br.com.projuris.domain.cliente.Cliente;
@@ -22,7 +23,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class OrdemServicoAssembler implements AssamblerDefault<OrdemServico, OrdemServicoCompletoResponse> {
+public class OrdemServicoListarAssembler implements AssamblerDefault<OrdemServico, OrdemServicoCompletoResponse> {
 
     private final ModelMapper modelMapper;
     private final ClienteAssembler clienteAssembler;
@@ -30,10 +31,10 @@ public class OrdemServicoAssembler implements AssamblerDefault<OrdemServico, Ord
     private final FuncionarioResumidoAssembler funcionarioResumidoAssembler;
     private final ResultadoCompletoAssembler resultadoCompletoAssembler;
 
-    public OrdemServicoAssembler(ModelMapper modelMapper, ClienteAssembler clienteAssembler,
-                                 EquipamentoAssembler equipamentoAssembler,
-                                 FuncionarioResumidoAssembler funcionarioResumidoAssembler,
-                                 ResultadoCompletoAssembler resultadoCompletoAssembler) {
+    public OrdemServicoListarAssembler(ModelMapper modelMapper, ClienteAssembler clienteAssembler,
+                                       EquipamentoAssembler equipamentoAssembler,
+                                       FuncionarioResumidoAssembler funcionarioResumidoAssembler,
+                                       ResultadoCompletoAssembler resultadoCompletoAssembler) {
         this.modelMapper = modelMapper;
         this.clienteAssembler = clienteAssembler;
         this.equipamentoAssembler = equipamentoAssembler;
@@ -74,5 +75,9 @@ public class OrdemServicoAssembler implements AssamblerDefault<OrdemServico, Ord
     @Override
     public List<OrdemServicoCompletoResponse> toListModel(List<OrdemServico> ordemServicos) {
         return ordemServicos.stream().map(this::toModel).collect(Collectors.toList());
+    }
+
+    public OrdemServicoResumidoResponse toResumeModel(OrdemServico os) {
+        return modelMapper.map(os, OrdemServicoResumidoResponse.class);
     }
 }

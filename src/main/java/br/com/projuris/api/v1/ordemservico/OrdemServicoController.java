@@ -1,13 +1,21 @@
 package br.com.projuris.api.v1.ordemservico;
 
+import br.com.projuris.api.v1.ordemservico.model.request.OrdemServicoCadastrarRequest;
 import br.com.projuris.api.v1.ordemservico.model.response.OrdemServicoCompletoResponse;
+import br.com.projuris.api.v1.ordemservico.model.response.OrdemServicoResumidoResponse;
+import br.com.projuris.domain.ordemservico.service.cadastrar.OrdemServicoCadastraService;
 import br.com.projuris.domain.ordemservico.service.listar.OrdemServicoListaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -15,16 +23,26 @@ import java.util.List;
 public class OrdemServicoController implements OrdemServicoControllerOpenApi {
 
     private final OrdemServicoListaService ordemServicoListaService;
+    private final OrdemServicoCadastraService ordemServicoCadastraService;
 
     @Autowired
-    public OrdemServicoController(OrdemServicoListaService ordemServicoListaService) {
+    public OrdemServicoController(OrdemServicoListaService ordemServicoListaService,
+                                  OrdemServicoCadastraService ordemServicoCadastraService) {
         this.ordemServicoListaService = ordemServicoListaService;
+        this.ordemServicoCadastraService = ordemServicoCadastraService;
     }
 
     @Override
     @GetMapping
     public List<OrdemServicoCompletoResponse> listar() {
         return ordemServicoListaService.buscaTodos();
+    }
+
+    @Override
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public OrdemServicoResumidoResponse cadastrar(@Valid @RequestBody OrdemServicoCadastrarRequest ordemServico) {
+        return ordemServicoCadastraService.cadastrar(ordemServico);
     }
 }
 
