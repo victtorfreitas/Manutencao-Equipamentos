@@ -6,7 +6,6 @@ import br.com.projuris.infrastructure.interfaces.DissamblerDefault;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,14 +26,6 @@ public class OrdemServicoCadastrarDisassembler implements DissamblerDefault<Orde
     @Override
     public void copyToDomainObject(OrdemServicoCadastrarRequest ordemServicoSimples, OrdemServico ordemServico) {
         modelMapper.map(ordemServicoSimples, ordemServico);
-        preencheDadosAdicionais(ordemServico);
-
-    }
-
-    private void preencheDadosAdicionais(OrdemServico ordemServico) {
-        List<OrdemServico> ordemServicos = new ArrayList<>();
-        ordemServicos.add(ordemServico);
-        ordemServico.getEquipamento().setOrdemServicos(ordemServicos);
     }
 
     public List<OrdemServico> toDomainList(List<OrdemServicoCadastrarRequest> ordemServicoSimpless) {
