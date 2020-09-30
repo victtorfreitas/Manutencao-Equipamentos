@@ -43,6 +43,7 @@ public class ClienteListaServiceImpl extends ServiceAbsDefault<Cliente> implemen
     }
 
     @Override
+    //:TODO REMOVER CADASTRAR DESTE SERVER
     public ClienteCompletoResponse cadastrar(ClienteCadastrarRequest clienteRequest) {
         Cliente clienteBD = clienteListaRepository.save(clienteDisassembler.toDomainObject(clienteRequest));
         return clienteAssembler.toModel(clienteBD);

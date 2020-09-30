@@ -8,8 +8,6 @@ import br.com.projuris.infrastructure.abstracts.EntityAuditAbsDefault;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.CascadeType;
@@ -25,13 +23,11 @@ import java.util.List;
 
 @Data
 @Entity(name = "TB_ORDEM_SERVICO")
-@NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Where(clause = "IS_ATIVO=true")
 public class OrdemServico extends EntityAuditAbsDefault {
 
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "ID_EQUIPAMENTO")
     private Equipamento equipamento;
@@ -42,7 +38,6 @@ public class OrdemServico extends EntityAuditAbsDefault {
     private Cliente cliente;
 
     @NotNull
-    @CreationTimestamp
     private LocalDateTime dataInicio;
 
     private LocalDateTime dataFim;
@@ -57,4 +52,9 @@ public class OrdemServico extends EntityAuditAbsDefault {
 
     @OneToMany(mappedBy = "ordemServico", cascade = CascadeType.ALL)
     private List<Resultado> resultados;
+
+    public OrdemServico() {
+        this.dataInicio = LocalDateTime.now();
+        this.status = StatusOrdemServicoEnum.CADASTRADA;
+    }
 }
