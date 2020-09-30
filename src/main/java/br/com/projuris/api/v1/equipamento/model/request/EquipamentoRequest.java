@@ -11,6 +11,7 @@ import javax.validation.constraints.Size;
 @Setter
 public class EquipamentoRequest {
 
+    @NotBlank
     @Size(max = 250)
     @ApiModelProperty(example = "100001")
     private String patrimonio;
