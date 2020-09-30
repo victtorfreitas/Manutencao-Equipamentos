@@ -4,6 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum StatusOrdemServicoEnum {
+    CADASTRADA("Cadastrada", "CADASTRADA"),
     INICIADA("Iniciada", "INICIADA"),
     PAUSADA("Pausada", "PAUSADA"),
     CANCELADA("Cancelada", "CANCELADA"),
