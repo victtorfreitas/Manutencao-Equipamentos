@@ -7,6 +7,7 @@ public enum StatusOrdemServicoEnum {
     CADASTRADA("Cadastrada", "CADASTRADA"),
     INICIADA("Iniciada", "INICIADA"),
     PAUSADA("Pausada", "PAUSADA"),
+    RETOMADA("Retomada", "RETOMADA"),
     CANCELADA("Cancelada", "CANCELADA"),
     CONCLUIDA("Concluída", "CONCLUIDA");
 

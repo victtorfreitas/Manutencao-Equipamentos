@@ -61,4 +61,8 @@ public class OrdemServico extends EntityAuditAbsDefault {
         this.dataInicio = LocalDateTime.now();
         this.status = StatusOrdemServicoEnum.CADASTRADA;
     }
+
+    public OrdemServico(Long id) {
+        this.setId(id);
+    }
 }

@@ -15,11 +15,15 @@ import br.com.projuris.domain.equipamento.service.cadastrar.EquipamentoCadastraS
 import br.com.projuris.domain.equipamento.service.listar.EquipamentoListaService;
 import br.com.projuris.domain.funcionario.service.validar.FuncionarioValidarService;
 import br.com.projuris.domain.ordemservico.OrdemServico;
+import br.com.projuris.domain.ordemservico.StatusOrdemServicoEnum;
 import br.com.projuris.domain.ordemservico.repository.cadastrar.OrdemServicoCadastraRepository;
 import br.com.projuris.domain.ordemservico.service.validar.OrdemServicoValidaService;
+import br.com.projuris.domain.resultado.service.cadastrar.ResultadoCadastraService;
 import br.com.projuris.infrastructure.abstracts.ServiceAbsDefault;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.beans.Transient;
 
 @Service
 public class OrdemServicoCadastraServiceImpl extends ServiceAbsDefault<OrdemServico> implements OrdemServicoCadastraService {
@@ -32,6 +36,7 @@ public class OrdemServicoCadastraServiceImpl extends ServiceAbsDefault<OrdemServ
     private final FuncionarioValidarService funcionarioValidarService;
     private final ClienteValidaService clienteValidaService;
     private final OrdemServicoValidaService ordemServicoValidaService;
+    private final ResultadoCadastraService resultadoCadastraService;
 
     @Autowired
     public OrdemServicoCadastraServiceImpl(OrdemServicoCadastraRepository ordemServicoCadastraRepository,
@@ -41,7 +46,8 @@ public class OrdemServicoCadastraServiceImpl extends ServiceAbsDefault<OrdemServ
                                            EquipamentoCadastraService equipamentoCadastraService,
                                            FuncionarioValidarService funcionarioValidarService,
                                            ClienteValidaService clienteValidaService,
-                                           OrdemServicoValidaService ordemServicoValidaService) {
+                                           OrdemServicoValidaService ordemServicoValidaService,
+                                           ResultadoCadastraService resultadoCadastraService) {
         super(ordemServicoCadastraRepository);
         this.ordemServicoCadastraRepository = ordemServicoCadastraRepository;
         this.ordemServicoCadastrarDisassembler = ordemServicoCadastrarDisassembler;
@@ -51,6 +57,7 @@ public class OrdemServicoCadastraServiceImpl extends ServiceAbsDefault<OrdemServ
         this.funcionarioValidarService = funcionarioValidarService;
         this.clienteValidaService = clienteValidaService;
         this.ordemServicoValidaService = ordemServicoValidaService;
+        this.resultadoCadastraService = resultadoCadastraService;
     }
 
     @Override
@@ -63,10 +70,24 @@ public class OrdemServicoCadastraServiceImpl extends ServiceAbsDefault<OrdemServ
     }
 
     @Override
+    @Transient
     public ResultadoCompletoResponse iniciarAtendimento(OrdemServicoSimplesRequest ordemServico,
                                                         FuncionarioSimplesRequest funcionario) {
         validaInicioAtendimento(ordemServico, funcionario);
-        return null;
+        iniciaAtendimentoOrdemServico(ordemServico.getId());
+        return resultadoCadastraService.iniciaAtendimento(ordemServico);
+    }
+
+    private void iniciaAtendimentoOrdemServico(Long id) {
+        ordemServicoCadastraRepository
+                .findById(id)
+                .ifPresent(os -> ordemServicoCadastraRepository
+                        .save(atualizaStatusOrdemServico(os, StatusOrdemServicoEnum.INICIADA)));
+    }
+
+    private OrdemServico atualizaStatusOrdemServico(OrdemServico os, StatusOrdemServicoEnum iniciada) {
+        os.setStatus(iniciada);
+        return os;
     }
 
     private void validaInicioAtendimento(OrdemServicoSimplesRequest ordemServico,

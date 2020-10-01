@@ -22,7 +22,12 @@ public class OrdemServicoValidaServiceImpl extends ServiceAbsDefault<OrdemServic
     @Override
     public void isOrdemServico(OrdemServicoSimplesRequest ordemServico) {
         ordemServicoListaRepository
-                .findById(ordemServico.getId())
-                .orElseThrow(() -> new OrdemServicoNaoEncontradaException(ordemServico.getId()));
+                .findByIdAndStarted(ordemServico.getId())
+                .orElseThrow(() -> getOsNaoEncontradaException(ordemServico));
+    }
+
+    private OrdemServicoNaoEncontradaException getOsNaoEncontradaException(OrdemServicoSimplesRequest ordemServico) {
+        String textoPadrao = "Não existe uma ordem de serviço não inciada com o código ";
+        return new OrdemServicoNaoEncontradaException(textoPadrao + ordemServico.getId());
     }
 }

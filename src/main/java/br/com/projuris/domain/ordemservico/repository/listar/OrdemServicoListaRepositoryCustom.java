@@ -1,5 +1,9 @@
 package br.com.projuris.domain.ordemservico.repository.listar;
 
-public interface OrdemServicoListaRepositoryCustom {
+import br.com.projuris.domain.ordemservico.OrdemServico;
 
+import java.util.Optional;
+
+public interface OrdemServicoListaRepositoryCustom {
+    Optional<OrdemServico> findByIdAndStarted(Long id);
 }
