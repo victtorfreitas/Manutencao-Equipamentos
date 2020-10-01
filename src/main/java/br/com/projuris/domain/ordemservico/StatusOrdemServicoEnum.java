@@ -4,18 +4,16 @@ import lombok.Getter;
 
 @Getter
 public enum StatusOrdemServicoEnum {
-    CADASTRADA("Cadastrada", "CADASTRADA"),
-    INICIADA("Iniciada", "INICIADA"),
-    PAUSADA("Pausada", "PAUSADA"),
-    RETOMADA("Retomada", "RETOMADA"),
-    CANCELADA("Cancelada", "CANCELADA"),
-    CONCLUIDA("Concluída", "CONCLUIDA");
+    CADASTRADA("Cadastrada"),
+    INICIADA("Iniciada"),
+    PAUSADA("Pausada"),
+    RETOMADA("Retomada"),
+    CANCELADA("Cancelada"),
+    CONCLUIDA("Concluída");
 
     private final String descricao;
-    private final String valor;
 
-    StatusOrdemServicoEnum(String descricao, String valor) {
+    StatusOrdemServicoEnum(String descricao) {
         this.descricao = descricao;
-        this.valor = valor;
     }
 }

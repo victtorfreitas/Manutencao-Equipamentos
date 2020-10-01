@@ -22,4 +22,7 @@ public interface OrdemServicoControllerOpenApi {
 
     @ApiModelProperty("Iniciar atendimento da ordem de serviço")
     ResultadoCompletoResponse iniciarAtendimento(IniciarAtendimentoRequest atendimentoRequest);
+
+    @ApiModelProperty("Filtra Ordem de Serviço por responsável")
+    List<OrdemServicoResumidoResponse> listaPendentesPorResponsavel(Long idResponsavel);
 }

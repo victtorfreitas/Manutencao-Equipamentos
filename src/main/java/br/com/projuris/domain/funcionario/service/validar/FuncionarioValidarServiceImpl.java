@@ -9,13 +9,12 @@ import br.com.projuris.infrastructure.abstracts.ServiceAbsDefault;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class FuncionarioValidarServiceImpl extends ServiceAbsDefault<Funcionario> implements FuncionarioValidarService {
 
     private final FuncionarioListaRepository funcionarioListaRepository;
     private final static String ATENDENTE = "Atendente";
+    private final static String TECNICO = "Técnico de computadores";
 
     @Autowired
     public FuncionarioValidarServiceImpl(FuncionarioListaRepository funcionarioListaRepository) {
@@ -25,22 +24,16 @@ public class FuncionarioValidarServiceImpl extends ServiceAbsDefault<Funcionario
 
     @Override
     public void isAtendente(FuncionarioSimplesRequest funcionarioSimplesRequest) {
-        findAtendente(funcionarioSimplesRequest)
+        funcionarioListaRepository
+                .findByIdAndTipoFuncionario_Nome(funcionarioSimplesRequest.getId(), ATENDENTE)
                 .orElseThrow(() -> new NaoAtendenteEncontradaException(funcionarioSimplesRequest.getId()));
-    }
-
-    private Optional<Funcionario> findAtendente(FuncionarioSimplesRequest funcionarioSimplesRequest) {
-        return funcionarioListaRepository
-                .findById(funcionarioSimplesRequest.getId())
-                .stream()
-                .filter(f -> f.getTipoFuncionario().getNome().equalsIgnoreCase(ATENDENTE))
-                .findAny();
     }
 
     @Override
     public void isResponsavel(FuncionarioSimplesRequest funcionario) {
-        if (findAtendente(funcionario).isPresent()) {
-            throw new NaoResponsavelEncontradaException(funcionario.getId());
-        }
+        funcionarioListaRepository
+                .findByIdAndTipoFuncionario_Nome(funcionario.getId(), TECNICO)
+                .orElseThrow(() -> new NaoResponsavelEncontradaException(funcionario.getId()));
+
     }
 }

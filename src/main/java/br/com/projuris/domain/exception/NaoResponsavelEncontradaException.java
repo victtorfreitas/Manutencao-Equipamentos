@@ -9,7 +9,7 @@ public class NaoResponsavelEncontradaException extends NegocioException {
     }
 
     public NaoResponsavelEncontradaException(Long responsavelId) {
-        this(String.format("Funcionario com código %d não pode ser do tipo  Atendente", responsavelId));
+        this(String.format("Funcionario com código %d não existe ou com tipo funcionario incompatível", responsavelId));
     }
 
 }

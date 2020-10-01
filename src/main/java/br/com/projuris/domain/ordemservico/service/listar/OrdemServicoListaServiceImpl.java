@@ -2,6 +2,7 @@ package br.com.projuris.domain.ordemservico.service.listar;
 
 import br.com.projuris.api.v1.ordemservico.assembler.OrdemServicoListarAssembler;
 import br.com.projuris.api.v1.ordemservico.model.response.OrdemServicoCompletoResponse;
+import br.com.projuris.api.v1.ordemservico.model.response.OrdemServicoResumidoResponse;
 import br.com.projuris.domain.ordemservico.OrdemServico;
 import br.com.projuris.domain.ordemservico.repository.listar.OrdemServicoListaRepository;
 import br.com.projuris.infrastructure.abstracts.ServiceAbsDefault;
@@ -27,9 +28,16 @@ public class OrdemServicoListaServiceImpl extends ServiceAbsDefault<OrdemServico
 
     @Override
     public List<OrdemServicoCompletoResponse> buscaTodos() {
-        return ordemServicoListaRepository.findAll()
+        List<OrdemServico> all = ordemServicoListaRepository.findAll();
+        return all
                 .stream()
                 .map(ordemServicoListarAssembler::toModel)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<OrdemServicoResumidoResponse> listaPendentesPorResponsavel(Long idResponsavel) {
+        return ordemServicoListaRepository.findByResponsavel(idResponsavel).stream().map(ordemServicoListarAssembler::toResumeModel)
                 .collect(Collectors.toList());
     }
 }
