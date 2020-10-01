@@ -6,7 +6,6 @@ import br.com.projuris.api.v1.ordemservico.model.response.OrdemServicoCompletoRe
 import br.com.projuris.api.v1.ordemservico.model.response.OrdemServicoResumidoResponse;
 import br.com.projuris.api.v1.resultado.model.response.ResultadoCompletoResponse;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 
 import java.util.List;
@@ -17,12 +16,12 @@ public interface OrdemServicoControllerOpenApi {
     @ApiOperation("Lista todas as Ordem de Serviços ativas")
     List<OrdemServicoCompletoResponse> listar();
 
-    @ApiModelProperty("Cadastra uma nova ordem de serviço")
+    @ApiOperation("Cadastra uma nova ordem de serviço")
     OrdemServicoResumidoResponse cadastrar(OrdemServicoCadastrarRequest ordemServico);
 
-    @ApiModelProperty("Iniciar atendimento da ordem de serviço")
+    @ApiOperation("Iniciar atendimento da ordem de serviço")
     ResultadoCompletoResponse iniciarAtendimento(IniciarAtendimentoRequest atendimentoRequest);
 
-    @ApiModelProperty("Filtra Ordem de Serviço por responsável")
+    @ApiOperation("Filtra Ordem de Serviço por responsável")
     List<OrdemServicoResumidoResponse> listaPendentesPorResponsavel(Long idResponsavel);
 }
