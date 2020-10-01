@@ -28,4 +28,10 @@ public class ResultadoCadastraServiceImpl extends ServiceAbsDefault<Resultado> i
         Resultado resultado = resultadoCadastraRepository.save(new Resultado(ordemServico.getId()));
         return resultadoCompletoAssembler.toModel(resultado);
     }
+
+    @Override
+    public ResultadoCompletoResponse atualiza(String descricao, Long ordemServicoId) {
+        Resultado resultado = resultadoCadastraRepository.save(new Resultado(descricao, ordemServicoId));
+        return resultadoCompletoAssembler.toModel(resultado);
+    }
 }

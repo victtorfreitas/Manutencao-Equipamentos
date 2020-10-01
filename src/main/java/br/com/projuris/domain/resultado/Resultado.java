@@ -41,4 +41,11 @@ public class Resultado extends EntityAuditAbsDefault {
         this.descricao = "Inicia atendimento";
         this.ordemServico = new OrdemServico(ordemServicoId);
     }
+
+    public Resultado(String descricao, Long ordemServicoId) {
+        this.data = LocalDateTime.now();
+        this.descricao = descricao;
+        this.ordemServico = new OrdemServico(ordemServicoId);
+
+    }
 }

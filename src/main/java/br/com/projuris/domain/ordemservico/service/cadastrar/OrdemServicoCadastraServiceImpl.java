@@ -16,6 +16,7 @@ import br.com.projuris.domain.equipamento.Equipamento;
 import br.com.projuris.domain.equipamento.service.cadastrar.EquipamentoCadastraService;
 import br.com.projuris.domain.equipamento.service.listar.EquipamentoListaService;
 import br.com.projuris.domain.equipamento.service.validar.EquipamentoValidaService;
+import br.com.projuris.domain.exception.NegocioException;
 import br.com.projuris.domain.funcionario.service.validar.FuncionarioValidarService;
 import br.com.projuris.domain.ordemservico.OrdemServico;
 import br.com.projuris.domain.ordemservico.StatusOrdemServicoEnum;
@@ -27,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.beans.Transient;
+import java.util.Optional;
 
 @Service
 public class OrdemServicoCadastraServiceImpl extends ServiceAbsDefault<OrdemServico> implements OrdemServicoCadastraService {
@@ -88,8 +90,13 @@ public class OrdemServicoCadastraServiceImpl extends ServiceAbsDefault<OrdemServ
     public OrdemServicoResultadoResponse atualiza(ResultadoCadastrarRequest resultado) {
         Long ordemServicoId = resultado.getOrdemServico().getId();
         validaOrdemServico(ordemServicoId);
-        atualizaStatusOrdemServico(ordemServicoId, resultado.getOrdemServico().getStatus());
-        return null;
+        ResultadoCompletoResponse resultadoCompletoResponse = cadastraNovoResultado(resultado);
+        OrdemServico ordemServico = atualizaStatusOrdemServico(ordemServicoId, resultado.getOrdemServico().getStatus());
+        return ordemServicoListarAssembler.toResultadoModel(ordemServico, resultadoCompletoResponse);
+    }
+
+    private ResultadoCompletoResponse cadastraNovoResultado(ResultadoCadastrarRequest resultado) {
+        return resultadoCadastraService.atualiza(resultado.getDescricao(), resultado.getOrdemServico().getId());
     }
 
     private void validaOrdemServico(Long id) {
@@ -103,11 +110,14 @@ public class OrdemServicoCadastraServiceImpl extends ServiceAbsDefault<OrdemServ
                         .save(atualizaStatusOrdemServico(os, StatusOrdemServicoEnum.INICIADA)));
     }
 
-    private void atualizaStatusOrdemServico(Long id, StatusOrdemServicoEnum status) {
-        ordemServicoCadastraRepository
-                .findById(id)
-                .ifPresent(os -> ordemServicoCadastraRepository
-                        .save(atualizaStatusOrdemServico(os, status)));
+    private OrdemServico atualizaStatusOrdemServico(Long id, StatusOrdemServicoEnum status) {
+        Optional<OrdemServico> os = ordemServicoCadastraRepository
+                .findById(id);
+        if (os.isPresent()) {
+            return ordemServicoCadastraRepository
+                    .save(atualizaStatusOrdemServico(os.get(), status));
+        }
+        throw new NegocioException("Ordem de serviço não encontrada");
     }
 
     private OrdemServico atualizaStatusOrdemServico(OrdemServico os, StatusOrdemServicoEnum iniciada) {

@@ -7,6 +7,7 @@ import br.com.projuris.api.v1.equipamento.model.response.EquipamentoCompletoResp
 import br.com.projuris.api.v1.funcionario.assembler.FuncionarioResumidoAssembler;
 import br.com.projuris.api.v1.funcionario.model.response.FuncionarioResumidoResponse;
 import br.com.projuris.api.v1.ordemservico.model.response.OrdemServicoCompletoResponse;
+import br.com.projuris.api.v1.ordemservico.model.response.OrdemServicoResultadoResponse;
 import br.com.projuris.api.v1.ordemservico.model.response.OrdemServicoResumidoResponse;
 import br.com.projuris.api.v1.resultado.assembler.ResultadoCompletoAssembler;
 import br.com.projuris.api.v1.resultado.model.response.ResultadoCompletoResponse;
@@ -79,5 +80,13 @@ public class OrdemServicoListarAssembler implements AssamblerDefault<OrdemServic
 
     public OrdemServicoResumidoResponse toResumeModel(OrdemServico os) {
         return modelMapper.map(os, OrdemServicoResumidoResponse.class);
+    }
+
+    public OrdemServicoResultadoResponse toResultadoModel(OrdemServico ordemServico,
+                                                          ResultadoCompletoResponse resultadoCompletoResponse) {
+        OrdemServicoResultadoResponse ordemServicoResultadoResponse =
+                modelMapper.map(ordemServico, OrdemServicoResultadoResponse.class);
+        ordemServicoResultadoResponse.setResultado(resultadoCompletoResponse);
+        return ordemServicoResultadoResponse;
     }
 }

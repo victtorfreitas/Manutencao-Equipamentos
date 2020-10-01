@@ -7,5 +7,7 @@ import br.com.projuris.infrastructure.interfaces.ServiceDefault;
 
 public interface ResultadoCadastraService extends ServiceDefault<Resultado> {
     ResultadoCompletoResponse iniciaAtendimento(OrdemServicoSimplesRequest ordemServico);
+
+    ResultadoCompletoResponse atualiza(String descricao, Long ordemServicoId);
 }
 
