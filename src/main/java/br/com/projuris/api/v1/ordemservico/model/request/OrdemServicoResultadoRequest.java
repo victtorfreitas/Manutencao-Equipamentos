@@ -9,14 +9,13 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-public class OrdemServicoSimplesRequest {
+public class OrdemServicoResultadoRequest {
 
     @NotNull
     @ApiModelProperty(example = "1")
     private Long id;
 
     @NotNull
-    @ApiModelProperty(example = "INICIADA")
     private StatusOrdemServicoEnum status;
 
 }

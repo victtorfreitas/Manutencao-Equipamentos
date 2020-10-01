@@ -3,7 +3,9 @@ package br.com.projuris.api.v1.ordemservico;
 import br.com.projuris.api.v1.ordemservico.model.request.IniciarAtendimentoRequest;
 import br.com.projuris.api.v1.ordemservico.model.request.OrdemServicoCadastrarRequest;
 import br.com.projuris.api.v1.ordemservico.model.response.OrdemServicoCompletoResponse;
+import br.com.projuris.api.v1.ordemservico.model.response.OrdemServicoResultadoResponse;
 import br.com.projuris.api.v1.ordemservico.model.response.OrdemServicoResumidoResponse;
+import br.com.projuris.api.v1.resultado.model.request.ResultadoCadastrarRequest;
 import br.com.projuris.api.v1.resultado.model.response.ResultadoCompletoResponse;
 import br.com.projuris.domain.ordemservico.service.cadastrar.OrdemServicoCadastraService;
 import br.com.projuris.domain.ordemservico.service.listar.OrdemServicoListaService;
@@ -60,6 +62,12 @@ public class OrdemServicoController implements OrdemServicoControllerOpenApi {
     @GetMapping(path = "/responsavel/{idResponsavel}")
     public List<OrdemServicoResumidoResponse> listaPendentesPorResponsavel(@PathVariable Long idResponsavel) {
         return ordemServicoListaService.listaPendentesPorResponsavel(idResponsavel);
+    }
+
+    @Override
+    @PostMapping(path = "/atualiza")
+    public OrdemServicoResultadoResponse atualizaOrdemServico(@Valid @RequestBody ResultadoCadastrarRequest resultado) {
+        return ordemServicoCadastraService.atualiza(resultado);
     }
 }
 

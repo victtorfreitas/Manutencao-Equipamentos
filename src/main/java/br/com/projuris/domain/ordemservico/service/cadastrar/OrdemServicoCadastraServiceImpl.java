@@ -7,12 +7,15 @@ import br.com.projuris.api.v1.ordemservico.assembler.OrdemServicoCadastrarDisass
 import br.com.projuris.api.v1.ordemservico.assembler.OrdemServicoListarAssembler;
 import br.com.projuris.api.v1.ordemservico.model.request.OrdemServicoCadastrarRequest;
 import br.com.projuris.api.v1.ordemservico.model.request.OrdemServicoSimplesRequest;
+import br.com.projuris.api.v1.ordemservico.model.response.OrdemServicoResultadoResponse;
 import br.com.projuris.api.v1.ordemservico.model.response.OrdemServicoResumidoResponse;
+import br.com.projuris.api.v1.resultado.model.request.ResultadoCadastrarRequest;
 import br.com.projuris.api.v1.resultado.model.response.ResultadoCompletoResponse;
 import br.com.projuris.domain.cliente.service.validar.ClienteValidaService;
 import br.com.projuris.domain.equipamento.Equipamento;
 import br.com.projuris.domain.equipamento.service.cadastrar.EquipamentoCadastraService;
 import br.com.projuris.domain.equipamento.service.listar.EquipamentoListaService;
+import br.com.projuris.domain.equipamento.service.validar.EquipamentoValidaService;
 import br.com.projuris.domain.funcionario.service.validar.FuncionarioValidarService;
 import br.com.projuris.domain.ordemservico.OrdemServico;
 import br.com.projuris.domain.ordemservico.StatusOrdemServicoEnum;
@@ -37,6 +40,7 @@ public class OrdemServicoCadastraServiceImpl extends ServiceAbsDefault<OrdemServ
     private final ClienteValidaService clienteValidaService;
     private final OrdemServicoValidaService ordemServicoValidaService;
     private final ResultadoCadastraService resultadoCadastraService;
+    private final EquipamentoValidaService equipamentoValidaService;
 
     @Autowired
     public OrdemServicoCadastraServiceImpl(OrdemServicoCadastraRepository ordemServicoCadastraRepository,
@@ -47,7 +51,8 @@ public class OrdemServicoCadastraServiceImpl extends ServiceAbsDefault<OrdemServ
                                            FuncionarioValidarService funcionarioValidarService,
                                            ClienteValidaService clienteValidaService,
                                            OrdemServicoValidaService ordemServicoValidaService,
-                                           ResultadoCadastraService resultadoCadastraService) {
+                                           ResultadoCadastraService resultadoCadastraService,
+                                           EquipamentoValidaService equipamentoValidaService) {
         super(ordemServicoCadastraRepository);
         this.ordemServicoCadastraRepository = ordemServicoCadastraRepository;
         this.ordemServicoCadastrarDisassembler = ordemServicoCadastrarDisassembler;
@@ -58,6 +63,7 @@ public class OrdemServicoCadastraServiceImpl extends ServiceAbsDefault<OrdemServ
         this.clienteValidaService = clienteValidaService;
         this.ordemServicoValidaService = ordemServicoValidaService;
         this.resultadoCadastraService = resultadoCadastraService;
+        this.equipamentoValidaService = equipamentoValidaService;
     }
 
     @Override
@@ -78,11 +84,30 @@ public class OrdemServicoCadastraServiceImpl extends ServiceAbsDefault<OrdemServ
         return resultadoCadastraService.iniciaAtendimento(ordemServico);
     }
 
+    @Override
+    public OrdemServicoResultadoResponse atualiza(ResultadoCadastrarRequest resultado) {
+        Long ordemServicoId = resultado.getOrdemServico().getId();
+        validaOrdemServico(ordemServicoId);
+        atualizaStatusOrdemServico(ordemServicoId, resultado.getOrdemServico().getStatus());
+        return null;
+    }
+
+    private void validaOrdemServico(Long id) {
+        ordemServicoValidaService.isOrdemServico(id);
+    }
+
     private void iniciaAtendimentoOrdemServico(Long id) {
         ordemServicoCadastraRepository
                 .findById(id)
                 .ifPresent(os -> ordemServicoCadastraRepository
                         .save(atualizaStatusOrdemServico(os, StatusOrdemServicoEnum.INICIADA)));
+    }
+
+    private void atualizaStatusOrdemServico(Long id, StatusOrdemServicoEnum status) {
+        ordemServicoCadastraRepository
+                .findById(id)
+                .ifPresent(os -> ordemServicoCadastraRepository
+                        .save(atualizaStatusOrdemServico(os, status)));
     }
 
     private OrdemServico atualizaStatusOrdemServico(OrdemServico os, StatusOrdemServicoEnum iniciada) {
@@ -105,9 +130,14 @@ public class OrdemServicoCadastraServiceImpl extends ServiceAbsDefault<OrdemServ
     }
 
     private void validaOrdemServico(OrdemServicoCadastrarRequest ordemServico) {
+        validaEquipamento(ordemServico.getEquipamento());
         validaCliente(ordemServico.getCliente());
         validaAtendente(ordemServico.getAtendente());
         validaResponsavel(ordemServico.getResponsavel());
+    }
+
+    private void validaEquipamento(EquipamentoRequest equipamento) {
+        ordemServicoValidaService.isUnicAtivoByPatrimonio(equipamento.getPatrimonio());
     }
 
     private void validaCliente(ClienteSimplesRequest cliente) {
