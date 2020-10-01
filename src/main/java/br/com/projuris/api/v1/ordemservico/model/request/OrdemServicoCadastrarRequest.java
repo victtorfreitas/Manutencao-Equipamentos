@@ -24,4 +24,8 @@ public class OrdemServicoCadastrarRequest {
     @Valid
     @NotNull
     private FuncionarioSimplesRequest atendente;
+
+    @Valid
+    @NotNull
+    private FuncionarioSimplesRequest responsavel;
 }

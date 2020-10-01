@@ -48,7 +48,11 @@ public class OrdemServico extends EntityAuditAbsDefault {
 
     @ManyToOne
     @JoinColumn(name = "ID_ATENDENTE")
-    private Funcionario Atendente;
+    private Funcionario atendente;
+
+    @ManyToOne
+    @JoinColumn(name = "ID_RESPONSAVEL")
+    private Funcionario responsavel;
 
     @OneToMany(mappedBy = "ordemServico", cascade = CascadeType.ALL)
     private List<Resultado> resultados;
