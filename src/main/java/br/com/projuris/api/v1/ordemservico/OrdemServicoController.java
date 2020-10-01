@@ -1,8 +1,10 @@
 package br.com.projuris.api.v1.ordemservico;
 
+import br.com.projuris.api.v1.ordemservico.model.request.IniciarAtendimentoRequest;
 import br.com.projuris.api.v1.ordemservico.model.request.OrdemServicoCadastrarRequest;
 import br.com.projuris.api.v1.ordemservico.model.response.OrdemServicoCompletoResponse;
 import br.com.projuris.api.v1.ordemservico.model.response.OrdemServicoResumidoResponse;
+import br.com.projuris.api.v1.resultado.model.response.ResultadoCompletoResponse;
 import br.com.projuris.domain.ordemservico.service.cadastrar.OrdemServicoCadastraService;
 import br.com.projuris.domain.ordemservico.service.listar.OrdemServicoListaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +45,14 @@ public class OrdemServicoController implements OrdemServicoControllerOpenApi {
     @ResponseStatus(HttpStatus.CREATED)
     public OrdemServicoResumidoResponse cadastrar(@Valid @RequestBody OrdemServicoCadastrarRequest ordemServico) {
         return ordemServicoCadastraService.cadastrar(ordemServico);
+    }
+
+    @Override
+    @PostMapping(path = "/iniciar-atendimento")
+    @ResponseStatus(HttpStatus.OK)
+    public ResultadoCompletoResponse iniciarAtendimento(@Valid @RequestBody IniciarAtendimentoRequest atendimentoRequest) {
+        return ordemServicoCadastraService
+                .iniciarAtendimento(atendimentoRequest.getOrdemServico(), atendimentoRequest.getResponsavel());
     }
 }
 

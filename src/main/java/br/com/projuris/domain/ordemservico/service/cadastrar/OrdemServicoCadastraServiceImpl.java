@@ -6,7 +6,9 @@ import br.com.projuris.api.v1.funcionario.model.request.FuncionarioSimplesReques
 import br.com.projuris.api.v1.ordemservico.assembler.OrdemServicoCadastrarDisassembler;
 import br.com.projuris.api.v1.ordemservico.assembler.OrdemServicoListarAssembler;
 import br.com.projuris.api.v1.ordemservico.model.request.OrdemServicoCadastrarRequest;
+import br.com.projuris.api.v1.ordemservico.model.request.OrdemServicoSimplesRequest;
 import br.com.projuris.api.v1.ordemservico.model.response.OrdemServicoResumidoResponse;
+import br.com.projuris.api.v1.resultado.model.response.ResultadoCompletoResponse;
 import br.com.projuris.domain.cliente.service.validar.ClienteValidaService;
 import br.com.projuris.domain.equipamento.Equipamento;
 import br.com.projuris.domain.equipamento.service.cadastrar.EquipamentoCadastraService;
@@ -14,6 +16,7 @@ import br.com.projuris.domain.equipamento.service.listar.EquipamentoListaService
 import br.com.projuris.domain.funcionario.service.validar.FuncionarioValidarService;
 import br.com.projuris.domain.ordemservico.OrdemServico;
 import br.com.projuris.domain.ordemservico.repository.cadastrar.OrdemServicoCadastraRepository;
+import br.com.projuris.domain.ordemservico.service.validar.OrdemServicoValidaService;
 import br.com.projuris.infrastructure.abstracts.ServiceAbsDefault;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +31,7 @@ public class OrdemServicoCadastraServiceImpl extends ServiceAbsDefault<OrdemServ
     private final EquipamentoCadastraService equipamentoCadastraService;
     private final FuncionarioValidarService funcionarioValidarService;
     private final ClienteValidaService clienteValidaService;
+    private final OrdemServicoValidaService ordemServicoValidaService;
 
     @Autowired
     public OrdemServicoCadastraServiceImpl(OrdemServicoCadastraRepository ordemServicoCadastraRepository,
@@ -36,7 +40,8 @@ public class OrdemServicoCadastraServiceImpl extends ServiceAbsDefault<OrdemServ
                                            EquipamentoListaService equipamentoListaService,
                                            EquipamentoCadastraService equipamentoCadastraService,
                                            FuncionarioValidarService funcionarioValidarService,
-                                           ClienteValidaService clienteValidaService) {
+                                           ClienteValidaService clienteValidaService,
+                                           OrdemServicoValidaService ordemServicoValidaService) {
         super(ordemServicoCadastraRepository);
         this.ordemServicoCadastraRepository = ordemServicoCadastraRepository;
         this.ordemServicoCadastrarDisassembler = ordemServicoCadastrarDisassembler;
@@ -45,6 +50,7 @@ public class OrdemServicoCadastraServiceImpl extends ServiceAbsDefault<OrdemServ
         this.equipamentoCadastraService = equipamentoCadastraService;
         this.funcionarioValidarService = funcionarioValidarService;
         this.clienteValidaService = clienteValidaService;
+        this.ordemServicoValidaService = ordemServicoValidaService;
     }
 
     @Override
@@ -56,9 +62,31 @@ public class OrdemServicoCadastraServiceImpl extends ServiceAbsDefault<OrdemServ
         return ordemServicoListarAssembler.toResumeModel(ordemServicoCadastraRepository.save(osBD));
     }
 
+    @Override
+    public ResultadoCompletoResponse iniciarAtendimento(OrdemServicoSimplesRequest ordemServico,
+                                                        FuncionarioSimplesRequest funcionario) {
+        validaInicioAtendimento(ordemServico, funcionario);
+        return null;
+    }
+
+    private void validaInicioAtendimento(OrdemServicoSimplesRequest ordemServico,
+                                         FuncionarioSimplesRequest funcionario) {
+        validaOrdemServico(ordemServico);
+        validaResponsavel(funcionario);
+    }
+
+    private void validaResponsavel(FuncionarioSimplesRequest funcionario) {
+        funcionarioValidarService.isResponsavel(funcionario);
+    }
+
+    private void validaOrdemServico(OrdemServicoSimplesRequest ordemServico) {
+        ordemServicoValidaService.isOrdemServico(ordemServico);
+    }
+
     private void validaOrdemServico(OrdemServicoCadastrarRequest ordemServico) {
         validaCliente(ordemServico.getCliente());
         validaAtendente(ordemServico.getAtendente());
+        validaResponsavel(ordemServico.getResponsavel());
     }
 
     private void validaCliente(ClienteSimplesRequest cliente) {

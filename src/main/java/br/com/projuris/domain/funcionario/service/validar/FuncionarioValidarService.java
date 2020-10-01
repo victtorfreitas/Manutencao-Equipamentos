@@ -7,4 +7,6 @@ import br.com.projuris.infrastructure.interfaces.ServiceDefault;
 public interface FuncionarioValidarService extends ServiceDefault<Funcionario> {
 
     void isAtendente(FuncionarioSimplesRequest funcionarioSimplesRequest);
+
+    void isResponsavel(FuncionarioSimplesRequest funcionario);
 }
