@@ -18,6 +18,9 @@ public interface OrdemServicoControllerOpenApi {
     @ApiOperation("Lista todas as Ordem de Serviços ativas")
     List<OrdemServicoCompletoResponse> listar();
 
+    @ApiOperation("Lista todas as Ordem de Serviços ativas Resumida")
+    List<OrdemServicoResumidoResponse> listarResumido();
+
     @ApiOperation("Cadastra uma nova ordem de serviço")
     OrdemServicoResumidoResponse cadastrar(OrdemServicoCadastrarRequest ordemServico);
 

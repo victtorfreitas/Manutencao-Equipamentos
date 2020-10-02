@@ -39,4 +39,12 @@ public class OrdemServicoListaServiceImpl extends ServiceAbsDefault<OrdemServico
         return ordemServicoListaRepository.findByResponsavel(idResponsavel).stream().map(ordemServicoListarAssembler::toResumeModel)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<OrdemServicoResumidoResponse> buscaTodosResumido() {
+        return ordemServicoListaRepository.findAll()
+                .stream()
+                .map(ordemServicoListarAssembler::toResumeModel)
+                .collect(Collectors.toList());
+    }
 }

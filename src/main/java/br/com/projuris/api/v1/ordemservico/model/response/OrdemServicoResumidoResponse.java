@@ -1,5 +1,6 @@
 package br.com.projuris.api.v1.ordemservico.model.response;
 
+import br.com.projuris.api.v1.cliente.model.response.ClienteResumidoResponse;
 import br.com.projuris.api.v1.equipamento.model.response.EquipamentoResumidoResponse;
 import br.com.projuris.api.v1.funcionario.model.response.FuncionarioResumidoResponse;
 import br.com.projuris.domain.ordemservico.StatusOrdemServicoEnum;
@@ -22,4 +23,6 @@ public class OrdemServicoResumidoResponse {
     private EquipamentoResumidoResponse equipamento;
 
     private FuncionarioResumidoResponse atendente;
+
+    private ClienteResumidoResponse cliente;
 }

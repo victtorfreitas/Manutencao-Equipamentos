@@ -12,5 +12,5 @@ public interface OrdemServicoListaService extends ServiceDefault<OrdemServico> {
 
     List<OrdemServicoResumidoResponse> listaPendentesPorResponsavel(Long idResponsavel);
 
-
+    List<OrdemServicoResumidoResponse> buscaTodosResumido();
 }

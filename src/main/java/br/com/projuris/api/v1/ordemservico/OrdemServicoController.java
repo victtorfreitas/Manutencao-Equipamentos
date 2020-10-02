@@ -44,6 +44,12 @@ public class OrdemServicoController implements OrdemServicoControllerOpenApi {
     }
 
     @Override
+    @GetMapping("/resumo")
+    public List<OrdemServicoResumidoResponse> listarResumido() {
+        return ordemServicoListaService.buscaTodosResumido();
+    }
+
+    @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public OrdemServicoResumidoResponse cadastrar(@Valid @RequestBody OrdemServicoCadastrarRequest ordemServico) {
