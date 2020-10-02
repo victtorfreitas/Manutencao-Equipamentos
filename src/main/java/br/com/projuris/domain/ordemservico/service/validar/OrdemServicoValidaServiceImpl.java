@@ -61,6 +61,15 @@ public class OrdemServicoValidaServiceImpl extends ServiceAbsDefault<OrdemServic
                 .orElseThrow(() -> new OrdemServicoNaoEncontradaException(MENSAGEM));
     }
 
+    @Override
+    public void podeConcluir(Long id) {
+        ordemServicoListaRepository
+                .findByIdAndNotStatus(id, StatusOrdemServicoEnum.CADASTRADA,
+                        StatusOrdemServicoEnum.CANCELADA, StatusOrdemServicoEnum.PAUSADA,
+                        StatusOrdemServicoEnum.CONCLUIDA)
+                .orElseThrow(() -> new OrdemServicoNaoEncontradaException(MENSAGEM));
+    }
+
     private OrdemServicoNaoEncontradaException getOsNaoEncontradaException(OrdemServicoSimplesRequest ordemServico) {
         String textoPadrao = "Não existe uma ordem de serviço não inciada com o código ";
         return new OrdemServicoNaoEncontradaException(textoPadrao + ordemServico.getId());

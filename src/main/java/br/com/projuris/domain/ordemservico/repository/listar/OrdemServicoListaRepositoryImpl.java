@@ -47,6 +47,24 @@ public class OrdemServicoListaRepositoryImpl extends QueryDslAbsSuport<OrdemServ
                 .fetchFirst());
     }
 
+    @Override
+    public Optional<OrdemServico> findByIdAndNotStatus(Long id, StatusOrdemServicoEnum... status) {
+        QOrdemServico qOrdemServico = QOrdemServico.ordemServico;
+
+        var conditions = getRegraPodeConcluir(qOrdemServico, id, status);
+        return Optional.ofNullable(Objects.requireNonNull(getQuerydsl())
+                .createQuery(qOrdemServico)
+                .select(qOrdemServico)
+                .where(conditions)
+                .fetchFirst());
+    }
+
+    private BooleanBuilder getRegraPodeConcluir(QOrdemServico qOrdemServico, Long id, StatusOrdemServicoEnum... status) {
+        return new BooleanBuilder()
+                .and(qOrdemServico.status.notIn(status))
+                .and(qOrdemServico.id.eq(id));
+    }
+
     private BooleanBuilder getRegraPodePausar(QOrdemServico qOrdemServico, Long ordemServicoId) {
         return new BooleanBuilder()
                 .and(qOrdemServico.status.eq(StatusOrdemServicoEnum.INICIADA)

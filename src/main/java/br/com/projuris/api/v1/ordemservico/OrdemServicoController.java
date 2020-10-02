@@ -88,5 +88,11 @@ public class OrdemServicoController implements OrdemServicoControllerOpenApi {
     public OrdemServicoResultadoResponse cancelarOrdemServico(@Valid @RequestBody ResultadoCadastrarRequest resultado) {
         return ordemServicoCadastraService.cancelarAntendimento(resultado);
     }
+
+    @Override
+    @PutMapping(path = "/conclui-atendimento")
+    public OrdemServicoResultadoResponse concluirOrdemServico(@Valid @RequestBody ResultadoCadastrarRequest resultado) {
+        return ordemServicoCadastraService.concluirAntendimento(resultado);
+    }
 }
 

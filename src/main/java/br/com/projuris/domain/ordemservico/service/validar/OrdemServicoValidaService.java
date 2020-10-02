@@ -14,4 +14,6 @@ public interface OrdemServicoValidaService extends ServiceDefault<OrdemServico> 
     void podePausar(Long ordemServicoId);
 
     void podeRetomar(Long ordemServicoId);
+
+    void podeConcluir(Long id);
 }

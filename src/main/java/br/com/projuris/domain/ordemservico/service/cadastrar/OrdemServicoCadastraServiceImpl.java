@@ -129,6 +129,16 @@ public class OrdemServicoCadastraServiceImpl extends ServiceAbsDefault<OrdemServ
         return atualiza(resultado, StatusOrdemServicoEnum.CANCELADA, LocalDateTime.now());
     }
 
+    @Override
+    public OrdemServicoResultadoResponse concluirAntendimento(ResultadoCadastrarRequest resultado) {
+        podeConcluir(resultado.getOrdemServico().getId());
+        return atualiza(resultado, StatusOrdemServicoEnum.CONCLUIDA, LocalDateTime.now());
+    }
+
+    private void podeConcluir(Long id) {
+        ordemServicoValidaService.podeConcluir(id);
+    }
+
     private void podeCancelar(Long id) {
         validaOrdemServico(id);
     }
