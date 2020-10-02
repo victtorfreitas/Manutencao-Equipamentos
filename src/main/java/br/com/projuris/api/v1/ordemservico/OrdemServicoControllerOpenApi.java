@@ -35,4 +35,7 @@ public interface OrdemServicoControllerOpenApi {
 
     @ApiOperation("Retomar ordem de serviço")
     OrdemServicoResultadoResponse retomarOrdemServico(ResultadoCadastrarRequest resultado);
+
+    @ApiOperation("Cancelar ordem de serviço")
+    OrdemServicoResultadoResponse cancelarOrdemServico(ResultadoCadastrarRequest resultado);
 }

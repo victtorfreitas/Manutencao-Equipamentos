@@ -19,4 +19,6 @@ public interface OrdemServicoCadastraService extends ServiceDefault<OrdemServico
     OrdemServicoResultadoResponse pausaAntendimento(ResultadoCadastrarRequest resultado);
 
     OrdemServicoResultadoResponse retomarAntendimento(ResultadoCadastrarRequest resultado);
+
+    OrdemServicoResultadoResponse cancelarAntendimento(ResultadoCadastrarRequest resultado);
 }

@@ -28,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.beans.Transient;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -87,9 +88,25 @@ public class OrdemServicoCadastraServiceImpl extends ServiceAbsDefault<OrdemServ
     }
 
     private OrdemServicoResultadoResponse atualiza(ResultadoCadastrarRequest resultado, StatusOrdemServicoEnum status) {
+        return atualiza(resultado, StatusOrdemServicoEnum.CANCELADA, null);
+    }
+
+    private OrdemServicoResultadoResponse atualiza(ResultadoCadastrarRequest resultado,
+                                                   StatusOrdemServicoEnum status,
+                                                   LocalDateTime dataFim) {
         ResultadoCompletoResponse resultadoCompletoResponse = cadastraNovoResultado(resultado);
-        OrdemServico ordemServico = atualizaStatusOrdemServico(resultado.getOrdemServico().getId(), status);
+        OrdemServico ordemServico = atualizaStatusOrdemServico(resultado.getOrdemServico().getId(), status, dataFim);
         return ordemServicoListarAssembler.toResultadoModel(ordemServico, resultadoCompletoResponse);
+    }
+
+    private OrdemServico atualizaStatusOrdemServico(Long id, StatusOrdemServicoEnum status, LocalDateTime dataFim) {
+        Optional<OrdemServico> os = ordemServicoCadastraRepository
+                .findById(id);
+        if (os.isPresent()) {
+            return ordemServicoCadastraRepository
+                    .save(atualizaStatusOrdemServico(os.get(), status, dataFim));
+        }
+        throw new NegocioException("Ordem de serviço não encontrada");
     }
 
     @Override
@@ -104,6 +121,16 @@ public class OrdemServicoCadastraServiceImpl extends ServiceAbsDefault<OrdemServ
         Long ordemServicoId = resultado.getOrdemServico().getId();
         podeRetomarAtendimento(ordemServicoId);
         return atualiza(resultado, StatusOrdemServicoEnum.RETOMADA);
+    }
+
+    @Override
+    public OrdemServicoResultadoResponse cancelarAntendimento(ResultadoCadastrarRequest resultado) {
+        podeCancelar(resultado.getOrdemServico().getId());
+        return atualiza(resultado, StatusOrdemServicoEnum.CANCELADA, LocalDateTime.now());
+    }
+
+    private void podeCancelar(Long id) {
+        validaOrdemServico(id);
     }
 
     private void podeRetomarAtendimento(Long ordemServicoId) {
@@ -140,7 +167,14 @@ public class OrdemServicoCadastraServiceImpl extends ServiceAbsDefault<OrdemServ
     }
 
     private OrdemServico atualizaStatusOrdemServico(OrdemServico os, StatusOrdemServicoEnum iniciada) {
+        return atualizaStatusOrdemServico(os, iniciada, null);
+    }
+
+    private OrdemServico atualizaStatusOrdemServico(OrdemServico os,
+                                                    StatusOrdemServicoEnum iniciada,
+                                                    LocalDateTime dataFTime) {
         os.setStatus(iniciada);
+        os.setDataFim(dataFTime);
         return os;
     }
 
