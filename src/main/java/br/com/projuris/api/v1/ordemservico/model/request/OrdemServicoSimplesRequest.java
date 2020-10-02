@@ -1,6 +1,5 @@
 package br.com.projuris.api.v1.ordemservico.model.request;
 
-import br.com.projuris.domain.ordemservico.StatusOrdemServicoEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,9 +13,4 @@ public class OrdemServicoSimplesRequest {
     @NotNull
     @ApiModelProperty(example = "1")
     private Long id;
-
-    @NotNull
-    @ApiModelProperty(example = "INICIADA")
-    private StatusOrdemServicoEnum status;
-
 }

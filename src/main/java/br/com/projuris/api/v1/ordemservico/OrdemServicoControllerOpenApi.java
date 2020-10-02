@@ -27,6 +27,6 @@ public interface OrdemServicoControllerOpenApi {
     @ApiOperation("Filtra Ordem de Serviço por responsável")
     List<OrdemServicoResumidoResponse> listaPendentesPorResponsavel(Long idResponsavel);
 
-    @ApiOperation("Atualiza status ordem de serviço")
-    OrdemServicoResultadoResponse atualizaOrdemServico(ResultadoCadastrarRequest resultado);
+    @ApiOperation("Pausa ordem de serviço")
+    OrdemServicoResultadoResponse pausaOrdemServico(ResultadoCadastrarRequest resultado);
 }

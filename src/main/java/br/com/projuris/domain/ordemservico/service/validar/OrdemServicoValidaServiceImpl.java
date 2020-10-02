@@ -45,6 +45,14 @@ public class OrdemServicoValidaServiceImpl extends ServiceAbsDefault<OrdemServic
         }
     }
 
+    @Override
+    public void podePausar(Long ordemServicoId) {
+        String mensagem = "Ordem de Serviço não encontrada, ou com status divergente";
+        ordemServicoListaRepository
+                .podePausar(ordemServicoId)
+                .orElseThrow(() -> new OrdemServicoNaoEncontradaException(mensagem));
+    }
+
     private OrdemServicoNaoEncontradaException getOsNaoEncontradaException(OrdemServicoSimplesRequest ordemServico) {
         String textoPadrao = "Não existe uma ordem de serviço não inciada com o código ";
         return new OrdemServicoNaoEncontradaException(textoPadrao + ordemServico.getId());

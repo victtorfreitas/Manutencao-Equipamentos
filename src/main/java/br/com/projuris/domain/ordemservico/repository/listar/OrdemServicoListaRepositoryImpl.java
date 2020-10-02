@@ -35,6 +35,25 @@ public class OrdemServicoListaRepositoryImpl extends QueryDslAbsSuport<OrdemServ
                 .fetch();
     }
 
+    @Override
+    public Optional<OrdemServico> podePausar(Long ordemServicoId) {
+        QOrdemServico qOrdemServico = QOrdemServico.ordemServico;
+
+        var conditions = getRegraPodePausar(qOrdemServico, ordemServicoId);
+        return Optional.ofNullable(Objects.requireNonNull(getQuerydsl())
+                .createQuery(qOrdemServico)
+                .select(qOrdemServico)
+                .where(conditions)
+                .fetchFirst());
+    }
+
+    private BooleanBuilder getRegraPodePausar(QOrdemServico qOrdemServico, Long ordemServicoId) {
+        return new BooleanBuilder()
+                .and(qOrdemServico.status.eq(StatusOrdemServicoEnum.INICIADA)
+                        .or(qOrdemServico.status.eq(StatusOrdemServicoEnum.RETOMADA)))
+                .and(qOrdemServico.id.eq(ordemServicoId));
+    }
+
     private BooleanBuilder getConditionsRestrictedByResponsavelAndStatusAndIsResponsavel(QOrdemServico qOrdemServico,
                                                                                          Long idResponsavel) {
         return new BooleanBuilder()

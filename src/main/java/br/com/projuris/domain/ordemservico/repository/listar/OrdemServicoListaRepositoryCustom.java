@@ -9,4 +9,6 @@ public interface OrdemServicoListaRepositoryCustom {
     Optional<OrdemServico> findByIdAndStarted(Long id);
 
     List<OrdemServico> findByResponsavel(Long idResponsavel);
+
+    Optional<OrdemServico> podePausar(Long ordemServicoId);
 }

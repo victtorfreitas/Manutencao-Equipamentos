@@ -65,9 +65,9 @@ public class OrdemServicoController implements OrdemServicoControllerOpenApi {
     }
 
     @Override
-    @PostMapping(path = "/atualiza")
-    public OrdemServicoResultadoResponse atualizaOrdemServico(@Valid @RequestBody ResultadoCadastrarRequest resultado) {
-        return ordemServicoCadastraService.atualiza(resultado);
+    @PostMapping(path = "/pausa-atendimento")
+    public OrdemServicoResultadoResponse pausaOrdemServico(@Valid @RequestBody ResultadoCadastrarRequest resultado) {
+        return ordemServicoCadastraService.pausaAntendimento(resultado);
     }
 }
 

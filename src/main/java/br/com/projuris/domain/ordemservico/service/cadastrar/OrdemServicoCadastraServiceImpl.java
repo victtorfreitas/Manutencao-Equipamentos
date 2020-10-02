@@ -86,13 +86,21 @@ public class OrdemServicoCadastraServiceImpl extends ServiceAbsDefault<OrdemServ
         return resultadoCadastraService.iniciaAtendimento(ordemServico);
     }
 
-    @Override
-    public OrdemServicoResultadoResponse atualiza(ResultadoCadastrarRequest resultado) {
-        Long ordemServicoId = resultado.getOrdemServico().getId();
-        validaOrdemServico(ordemServicoId);
+    private OrdemServicoResultadoResponse atualiza(ResultadoCadastrarRequest resultado, StatusOrdemServicoEnum status) {
         ResultadoCompletoResponse resultadoCompletoResponse = cadastraNovoResultado(resultado);
-        OrdemServico ordemServico = atualizaStatusOrdemServico(ordemServicoId, resultado.getOrdemServico().getStatus());
+        OrdemServico ordemServico = atualizaStatusOrdemServico(resultado.getOrdemServico().getId(), status);
         return ordemServicoListarAssembler.toResultadoModel(ordemServico, resultadoCompletoResponse);
+    }
+
+    @Override
+    public OrdemServicoResultadoResponse pausaAntendimento(ResultadoCadastrarRequest resultado) {
+        Long ordemServicoId = resultado.getOrdemServico().getId();
+        podePausarAtendimento(ordemServicoId);
+        return atualiza(resultado, StatusOrdemServicoEnum.PAUSADA);
+    }
+
+    private void podePausarAtendimento(Long ordemServicoId) {
+        ordemServicoValidaService.podePausar(ordemServicoId);
     }
 
     private ResultadoCompletoResponse cadastraNovoResultado(ResultadoCadastrarRequest resultado) {
