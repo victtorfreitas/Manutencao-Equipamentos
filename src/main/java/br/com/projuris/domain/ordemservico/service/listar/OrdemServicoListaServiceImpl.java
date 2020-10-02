@@ -28,8 +28,7 @@ public class OrdemServicoListaServiceImpl extends ServiceAbsDefault<OrdemServico
 
     @Override
     public List<OrdemServicoCompletoResponse> buscaTodos() {
-        List<OrdemServico> all = ordemServicoListaRepository.findAll();
-        return all
+        return ordemServicoListaRepository.findAll()
                 .stream()
                 .map(ordemServicoListarAssembler::toModel)
                 .collect(Collectors.toList());
