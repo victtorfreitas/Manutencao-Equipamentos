@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -26,5 +27,6 @@ public class Problema extends EntityAuditAbsDefault {
 
     @NotNull
     @ManyToOne
+    @JoinColumn(name = "ID_EQUIPAMENTO")
     private Equipamento equipamento;
 }

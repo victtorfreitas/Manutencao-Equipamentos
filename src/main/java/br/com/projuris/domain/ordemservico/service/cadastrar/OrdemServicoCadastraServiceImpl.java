@@ -15,13 +15,13 @@ import br.com.projuris.domain.cliente.service.validar.ClienteValidaService;
 import br.com.projuris.domain.equipamento.Equipamento;
 import br.com.projuris.domain.equipamento.service.cadastrar.EquipamentoCadastraService;
 import br.com.projuris.domain.equipamento.service.listar.EquipamentoListaService;
-import br.com.projuris.domain.equipamento.service.validar.EquipamentoValidaService;
 import br.com.projuris.domain.exception.NegocioException;
 import br.com.projuris.domain.funcionario.service.validar.FuncionarioValidarService;
 import br.com.projuris.domain.ordemservico.OrdemServico;
 import br.com.projuris.domain.ordemservico.StatusOrdemServicoEnum;
 import br.com.projuris.domain.ordemservico.repository.cadastrar.OrdemServicoCadastraRepository;
 import br.com.projuris.domain.ordemservico.service.validar.OrdemServicoValidaService;
+import br.com.projuris.domain.problema.service.cadastrar.ProblemaCadastraService;
 import br.com.projuris.domain.resultado.service.cadastrar.ResultadoCadastraService;
 import br.com.projuris.infrastructure.abstracts.ServiceAbsDefault;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +42,7 @@ public class OrdemServicoCadastraServiceImpl extends ServiceAbsDefault<OrdemServ
     private final ClienteValidaService clienteValidaService;
     private final OrdemServicoValidaService ordemServicoValidaService;
     private final ResultadoCadastraService resultadoCadastraService;
-    private final EquipamentoValidaService equipamentoValidaService;
+    private final ProblemaCadastraService problemaCadastraService;
 
     @Autowired
     public OrdemServicoCadastraServiceImpl(OrdemServicoCadastraRepository ordemServicoCadastraRepository,
@@ -54,7 +54,7 @@ public class OrdemServicoCadastraServiceImpl extends ServiceAbsDefault<OrdemServ
                                            ClienteValidaService clienteValidaService,
                                            OrdemServicoValidaService ordemServicoValidaService,
                                            ResultadoCadastraService resultadoCadastraService,
-                                           EquipamentoValidaService equipamentoValidaService) {
+                                           ProblemaCadastraService problemaCadastraService) {
         super(ordemServicoCadastraRepository);
         this.ordemServicoCadastraRepository = ordemServicoCadastraRepository;
         this.ordemServicoCadastrarDisassembler = ordemServicoCadastrarDisassembler;
@@ -65,7 +65,7 @@ public class OrdemServicoCadastraServiceImpl extends ServiceAbsDefault<OrdemServ
         this.clienteValidaService = clienteValidaService;
         this.ordemServicoValidaService = ordemServicoValidaService;
         this.resultadoCadastraService = resultadoCadastraService;
-        this.equipamentoValidaService = equipamentoValidaService;
+        this.problemaCadastraService = problemaCadastraService;
     }
 
     @Override
@@ -159,8 +159,10 @@ public class OrdemServicoCadastraServiceImpl extends ServiceAbsDefault<OrdemServ
     }
 
     private Equipamento buscaEquipamento(EquipamentoRequest equipamento) {
-        return equipamentoListaService
+        Equipamento equipamentoBd = equipamentoListaService
                 .findByPatrimonio(equipamento.getPatrimonio())
                 .orElseGet(() -> equipamentoCadastraService.save(equipamento));
+        problemaCadastraService.cadastrar(equipamento.getProblemas(), equipamentoBd.getId());
+        return equipamentoBd;
     }
 }
