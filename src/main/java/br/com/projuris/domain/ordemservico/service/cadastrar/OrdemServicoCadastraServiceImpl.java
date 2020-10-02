@@ -99,6 +99,17 @@ public class OrdemServicoCadastraServiceImpl extends ServiceAbsDefault<OrdemServ
         return atualiza(resultado, StatusOrdemServicoEnum.PAUSADA);
     }
 
+    @Override
+    public OrdemServicoResultadoResponse retomarAntendimento(ResultadoCadastrarRequest resultado) {
+        Long ordemServicoId = resultado.getOrdemServico().getId();
+        podeRetomarAtendimento(ordemServicoId);
+        return atualiza(resultado, StatusOrdemServicoEnum.RETOMADA);
+    }
+
+    private void podeRetomarAtendimento(Long ordemServicoId) {
+        ordemServicoValidaService.podeRetomar(ordemServicoId);
+    }
+
     private void podePausarAtendimento(Long ordemServicoId) {
         ordemServicoValidaService.podePausar(ordemServicoId);
     }

@@ -17,4 +17,6 @@ public interface OrdemServicoCadastraService extends ServiceDefault<OrdemServico
                                                  FuncionarioSimplesRequest funcionario);
 
     OrdemServicoResultadoResponse pausaAntendimento(ResultadoCadastrarRequest resultado);
+
+    OrdemServicoResultadoResponse retomarAntendimento(ResultadoCadastrarRequest resultado);
 }

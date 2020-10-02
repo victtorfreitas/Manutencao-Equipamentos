@@ -32,4 +32,7 @@ public interface OrdemServicoControllerOpenApi {
 
     @ApiOperation("Pausa ordem de serviço")
     OrdemServicoResultadoResponse pausaOrdemServico(ResultadoCadastrarRequest resultado);
+
+    @ApiOperation("Retomar ordem de serviço")
+    OrdemServicoResultadoResponse retomarOrdemServico(ResultadoCadastrarRequest resultado);
 }

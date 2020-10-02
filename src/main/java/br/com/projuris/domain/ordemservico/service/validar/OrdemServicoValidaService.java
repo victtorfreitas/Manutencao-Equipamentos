@@ -12,4 +12,6 @@ public interface OrdemServicoValidaService extends ServiceDefault<OrdemServico> 
     void isUnicAtivoByPatrimonio(String patrimonio);
 
     void podePausar(Long ordemServicoId);
+
+    void podeRetomar(Long ordemServicoId);
 }

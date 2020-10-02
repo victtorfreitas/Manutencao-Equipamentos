@@ -4,6 +4,7 @@ import br.com.projuris.api.v1.ordemservico.model.request.OrdemServicoSimplesRequ
 import br.com.projuris.domain.exception.EquipamentoNaoUnicoAtivoException;
 import br.com.projuris.domain.exception.OrdemServicoNaoEncontradaException;
 import br.com.projuris.domain.ordemservico.OrdemServico;
+import br.com.projuris.domain.ordemservico.StatusOrdemServicoEnum;
 import br.com.projuris.domain.ordemservico.repository.listar.OrdemServicoListaRepository;
 import br.com.projuris.infrastructure.abstracts.ServiceAbsDefault;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import java.util.Optional;
 public class OrdemServicoValidaServiceImpl extends ServiceAbsDefault<OrdemServico> implements OrdemServicoValidaService {
 
     private final OrdemServicoListaRepository ordemServicoListaRepository;
+    private final static String MENSAGEM = "Ordem de Serviço não encontrada, ou com status divergente";
 
     @Autowired
     public OrdemServicoValidaServiceImpl(OrdemServicoListaRepository ordemServicoListaRepository) {
@@ -47,10 +49,16 @@ public class OrdemServicoValidaServiceImpl extends ServiceAbsDefault<OrdemServic
 
     @Override
     public void podePausar(Long ordemServicoId) {
-        String mensagem = "Ordem de Serviço não encontrada, ou com status divergente";
         ordemServicoListaRepository
-                .podePausar(ordemServicoId)
-                .orElseThrow(() -> new OrdemServicoNaoEncontradaException(mensagem));
+                .findByIdAndStatus(ordemServicoId, StatusOrdemServicoEnum.INICIADA)
+                .orElseThrow(() -> new OrdemServicoNaoEncontradaException(MENSAGEM));
+    }
+
+    @Override
+    public void podeRetomar(Long ordemServicoId) {
+        ordemServicoListaRepository
+                .findByIdAndStatus(ordemServicoId, StatusOrdemServicoEnum.PAUSADA)
+                .orElseThrow(() -> new OrdemServicoNaoEncontradaException(MENSAGEM));
     }
 
     private OrdemServicoNaoEncontradaException getOsNaoEncontradaException(OrdemServicoSimplesRequest ordemServico) {

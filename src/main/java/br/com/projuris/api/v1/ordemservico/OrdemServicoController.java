@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -57,7 +58,7 @@ public class OrdemServicoController implements OrdemServicoControllerOpenApi {
     }
 
     @Override
-    @PostMapping(path = "/iniciar-atendimento")
+    @PutMapping(path = "/iniciar-atendimento")
     @ResponseStatus(HttpStatus.OK)
     public ResultadoCompletoResponse iniciarAtendimento(@Valid @RequestBody IniciarAtendimentoRequest atendimentoRequest) {
         return ordemServicoCadastraService
@@ -71,9 +72,15 @@ public class OrdemServicoController implements OrdemServicoControllerOpenApi {
     }
 
     @Override
-    @PostMapping(path = "/pausa-atendimento")
+    @PutMapping(path = "/pausa-atendimento")
     public OrdemServicoResultadoResponse pausaOrdemServico(@Valid @RequestBody ResultadoCadastrarRequest resultado) {
         return ordemServicoCadastraService.pausaAntendimento(resultado);
+    }
+
+    @Override
+    @PutMapping(path = "/retoma-atendimento")
+    public OrdemServicoResultadoResponse retomarOrdemServico(@Valid @RequestBody ResultadoCadastrarRequest resultado) {
+        return ordemServicoCadastraService.retomarAntendimento(resultado);
     }
 }
 
